@@ -1,0 +1,34 @@
+{
+    "name": "shrikeh/cryptos",
+    "type": "library",
+    "description": "OOP implementations of various encryption methods for PHP. Standardises implementation across different methods (mcrypt, openssl, etc).",
+    "keywords": ["encryption", "mcrypt", "openssl", "passwords"],
+    "homepage": "http://popshack.com",
+    "authors": [
+        {
+            "name": "Shrikeh",
+            "email": "barney@shrikeh.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "ircmaxell/password-compat" : "dev-master"
+    },
+    "require-dev" : {
+        "phpunit/phpunit": "3.7.*",
+        "phploc/phploc": ">=1.7.4",
+        "pdepend/pdepend": "*",
+        "shrink/phpcpd": "dev-master",
+        "zerkalica/php-code-browser": "dev-master",
+        "phpmd/phpmd" : ">=1.4.0",
+        "squizlabs/php_codesniffer": "1.*",
+        "phpdocumentor/phpdocumentor": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Shrikeh\\Crypto": "src",
+            "ShrikehTests\\Crypto": "tests"
+        }
+    },
+    "minimum-stability": "dev"
+}
