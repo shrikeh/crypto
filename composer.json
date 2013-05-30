@@ -1,5 +1,5 @@
 {
-    "name": "shrikeh/cryptos",
+    "name": "shrikeh/crypto",
     "type": "library",
     "description": "OOP implementations of various encryption methods for PHP. Standardises implementation across different methods (mcrypt, openssl, etc).",
     "keywords": ["encryption", "mcrypt", "openssl", "passwords"],
