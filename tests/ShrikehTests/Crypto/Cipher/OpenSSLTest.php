@@ -1,10 +1,10 @@
 <?php
-namespace ShrikehTests\Crypto\Encryption;
+namespace ShrikehTests\Crypto\Cipher;
 
 use \stdClass;
 
 use \PHPUnit_Framework_TestCase as TestCase;
-use \Shrikeh\Crypto\Encryption\OpenSSL;
+use \Shrikeh\Crypto\Cipher\OpenSSL;
 
 class OpenSSLTest extends TestCase
 {
@@ -13,14 +13,14 @@ class OpenSSLTest extends TestCase
      */
     public function testCrypt()
     {
-        $cipher = 'aes-256-cbc';
-        $crypt = new OpenSSL($cipher);
-        $this->assertSame($cipher, $crypt->getCipher());
+        $algorithm = 'aes-256-cbc';
+        $crypt = new OpenSSL($algorithm);
+        $this->assertSame($algorithm, $crypt->getAlgorithm());
 
         $data = new stdClass();
         $data->foo = 'bar';
         $key = 'wibble';
-        $ivSize = openssl_cipher_iv_length($cipher);
+        $ivSize = openssl_cipher_iv_length($algorithm);
         $iv = openssl_random_pseudo_bytes($ivSize);
 
         $encrypt64 = $crypt->encrypt($data, $key, $iv);
@@ -41,9 +41,9 @@ class OpenSSLTest extends TestCase
      */
     public function testIv()
     {
-        $cipher = 'aes-256-cbc';
-        $crypt = new OpenSSL($cipher);
-        $ivSize = openssl_cipher_iv_length($cipher);
+        $algorithm = 'aes-256-cbc';
+        $crypt = new OpenSSL($algorithm);
+        $ivSize = openssl_cipher_iv_length($algorithm);
         $this->assertSame($ivSize, $crypt->getIvSize());
         $iv = $crypt->createIv();
         $this->assertEquals($ivSize, strlen($iv));
@@ -52,18 +52,18 @@ class OpenSSLTest extends TestCase
     /**
      * @test
      */
-    public function testAvailableCiphers()
+    public function testAvailableAlgorithms()
     {
-        $ciphers = openssl_get_cipher_methods();
+        $algorithms = openssl_get_cipher_methods();
         $crypt = new OpenSSL();
-        $this->assertSame($ciphers, $crypt->getAvailableCiphers());
+        $this->assertSame($algorithms, $crypt->getAvailableAlgorithms());
     }
 
     /**
      * @test
      * @expectedException \InvalidArgumentException
      */
-    public function testInvalidCipherNotAllowed()
+    public function testInvalidAlgorithmNotAllowed()
     {
         $crypt = new OpenSSL('test');
     }

@@ -1,7 +1,7 @@
 <?php
-namespace Shrikeh\Crypto\Encryption;
+namespace Shrikeh\Crypto\Cipher;
 
-interface EncryptionInterface
+interface CipherInterface
 {
     /**
      * Return the size of the initialization vector.
@@ -45,11 +45,11 @@ interface EncryptionInterface
      *
      * @return string
      */
-    public function getCipher();
+    public function getAlgorithm();
 
     /**
      * Return a list of available ciphers.
      * @return array
      */
-    public function getAvailableCiphers();
+    public function getAvailableAlgorithms();
 }

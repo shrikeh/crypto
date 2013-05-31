@@ -1,9 +1,9 @@
 <?php
-namespace Shrikeh\Crypto\Encryption;
+namespace Shrikeh\Crypto\Cipher;
 
-use \Shrikeh\Crypto\Encryption\EncryptionAbstract;
+use \Shrikeh\Crypto\Cipher\CipherAbstract;
 
-class Mcrypt extends EncryptionAbstract
+class Mcrypt extends CipherAbstract
 {
     /**
      * Location of the mcrypt algorithms library.
@@ -22,13 +22,13 @@ class Mcrypt extends EncryptionAbstract
     /**
      * Constructor.
      *
-     * @param string $cipher
+     * @param string $algorithm
      * @param string $mode
      * @param string $libDir
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        $cipher = MCRYPT_RIJNDAEL_256,
+        $algorithm = MCRYPT_RIJNDAEL_256,
         $mode = MCRYPT_MODE_CBC,
         $libDir = null
     ) {
@@ -39,10 +39,10 @@ class Mcrypt extends EncryptionAbstract
         }
         $this->libDir = $libDir;
 
-        if (!$this->validateCipher($cipher)) {
-            throw new \InvalidArgumentException("Cipher $cipher is not a known cipher");
+        if (!$this->validateAlgorithm($algorithm)) {
+            throw new \InvalidArgumentException("Algorithm $algorithm is not a known algorithm");
         }
-        $this->cipher = $cipher;
+        $this->algorithm = $algorithm;
     }
 
     /**
@@ -56,9 +56,9 @@ class Mcrypt extends EncryptionAbstract
     }
 
 
-    public function getCipherIvSize()
+    public function getAlgorithmIvSize()
     {
-        return mcrypt_get_iv_size($this->getCipher(), $this->getMode());
+        return mcrypt_get_iv_size($this->getAlgorithm(), $this->getMode());
     }
 
     /**
@@ -84,7 +84,7 @@ class Mcrypt extends EncryptionAbstract
         $this->validateIv($iv);
 
         $encrypted =  mcrypt_encrypt(
-            $this->getCipher(),
+            $this->getAlgorithm(),
             $key,
             serialize($data),
             $this->getMode(),
@@ -95,9 +95,9 @@ class Mcrypt extends EncryptionAbstract
 
     /**
      * (non-PHPdoc)
-     * @see \Shrikeh\Crypto\Encryption\EncryptionAbstract::getImplementationCiphers()
+     * @see \Shrikeh\Crypto\Encryption\EncryptionAbstract::getImplementationAlgorithms()
      */
-    protected function getImplementationCiphers()
+    protected function getImplementationAlgorithms()
     {
         return mcrypt_list_algorithms($this->libDir);
     }
@@ -117,7 +117,7 @@ class Mcrypt extends EncryptionAbstract
             $encrypted = base64_decode($encrypted);
         }
         $decrypted =  mcrypt_decrypt(
-            $this->getCipher(),
+            $this->getAlgorithm(),
             $key,
             $encrypted,
             $this->getMode(),

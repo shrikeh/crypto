@@ -1,22 +1,22 @@
 <?php
-namespace Shrikeh\Crypto\Encryption;
+namespace Shrikeh\Crypto\Cipher;
 
-use \Shrikeh\Crypto\Encryption\EncryptionInterface;
+use \Shrikeh\Crypto\Cipher\CipherInterface;
 
-abstract class EncryptionAbstract implements EncryptionInterface
+abstract class CipherAbstract implements CipherInterface
 {
     /**
      * Available ciphers for this implementation.
      * @var null | array
      */
-    protected $availableCiphers;
+    protected $availableAlgorithms;
 
     /**
      * The cipher to use.
      *
      * @var mixed
      */
-    protected $cipher;
+    protected $algorithm;
 
     /**
      * As the cipher is immutable, we cache the IV size rather than
@@ -33,20 +33,20 @@ abstract class EncryptionAbstract implements EncryptionInterface
      * @see \Shrikeh\Crypto\Encryption\EncryptionInterface::getCipher()
      * @return string
      */
-    public function getCipher()
+    public function getAlgorithm()
     {
-        return $this->cipher;
+        return $this->algorithm;
     }
 
     /**
      * Validate a cipher, set it to the default if none is provided.
      *
-     * @param string $cipher
+     * @param string $algorithm
      * @return string
      */
-    protected function validateCipher($cipher)
+    protected function validateAlgorithm($algorithm)
     {
-        return in_array($cipher, $this->getAvailableCiphers());
+        return in_array($algorithm, $this->getAvailableAlgorithms());
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class EncryptionAbstract implements EncryptionInterface
     public function getIvSize()
     {
         if (null === $this->ivSize) {
-            $this->ivSize = $this->getCipherIvSize();
+            $this->ivSize = $this->getAlgorithmIvSize();
         }
         return $this->ivSize;
     }
@@ -66,12 +66,12 @@ abstract class EncryptionAbstract implements EncryptionInterface
      *
      * @return array
      */
-    public function getAvailableCiphers()
+    public function getAvailableAlgorithms()
     {
-        if (!$this->availableCiphers) {
-            $this->availableCiphers = $this->getImplementationCiphers();
+        if (!$this->availableAlgorithms) {
+            $this->availableAlgorithms = $this->getImplementationAlgorithms();
         }
-        return $this->availableCiphers;
+        return $this->availableAlgorithms;
     }
 
     /**
@@ -102,12 +102,12 @@ abstract class EncryptionAbstract implements EncryptionInterface
      *
      * @return array
      */
-    abstract protected function getImplementationCiphers();
+    abstract protected function getImplementationAlgorithms();
 
     /**
      * Get the underlying implementation's iv size for the given cipher.
      *
      * @return integer
      */
-    abstract public function getCipherIvSize();
+    abstract public function getAlgorithmIvSize();
 }

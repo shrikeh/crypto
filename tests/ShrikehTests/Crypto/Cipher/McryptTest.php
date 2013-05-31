@@ -1,10 +1,10 @@
 <?php
-namespace ShrikehTests\Crypto\Encryption;
+namespace ShrikehTests\Crypto\Cipher;
 
 use \stdClass;
 
 use \PHPUnit_Framework_TestCase as TestCase;
-use \Shrikeh\Crypto\Encryption\Mcrypt;
+use \Shrikeh\Crypto\Cipher\Mcrypt;
 
 class McryptTest extends TestCase
 {
@@ -13,12 +13,12 @@ class McryptTest extends TestCase
      */
     public function testCrypt()
     {
-        $cipher = MCRYPT_RIJNDAEL_128;
-        $crypt = new Mcrypt($cipher);
+        $algorithm = MCRYPT_RIJNDAEL_128;
+        $crypt = new Mcrypt($algorithm);
 
-        $this->assertSame($cipher, $crypt->getCipher());
+        $this->assertSame($algorithm, $crypt->getAlgorithm());
 
-        $ivSize = mcrypt_get_iv_size($cipher, MCRYPT_MODE_CBC);
+        $ivSize = mcrypt_get_iv_size($algorithm, MCRYPT_MODE_CBC);
         $iv = mcrypt_create_iv($ivSize, MCRYPT_RAND);
         $data = new stdClass();
 
@@ -66,18 +66,18 @@ class McryptTest extends TestCase
     /**
      * @test
      */
-    public function testAvailableCiphers()
+    public function testAvailableAlgorithms()
     {
-        $ciphers = mcrypt_list_algorithms();
+        $algorithms = mcrypt_list_algorithms();
         $crypt = new Mcrypt(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-        $this->assertSame($ciphers, $crypt->getAvailableCiphers());
+        $this->assertSame($algorithms, $crypt->getAvailableAlgorithms());
     }
 
     /**
      * @test
      * @expectedException \InvalidArgumentException
      */
-    public function testInvalidCipherNotAllowed()
+    public function testInvalidAlgorithmNotAllowed()
     {
         $crypt = new Mcrypt('test');
     }

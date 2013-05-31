@@ -1,9 +1,9 @@
 <?php
-namespace Shrikeh\Crypto\Encryption;
+namespace Shrikeh\Crypto\Cipher;
 
-use \Shrikeh\Crypto\Encryption\EncryptionAbstract;
+use \Shrikeh\Crypto\Cipher\CipherAbstract;
 
-class OpenSSL extends EncryptionAbstract
+class OpenSSL extends CipherAbstract
 {
     protected $padding;
 
@@ -13,14 +13,14 @@ class OpenSSL extends EncryptionAbstract
      * @param string $padding
      */
     public function __construct(
-        $cipher = 'aes-256-cbc',
+        $algorithm = 'aes-256-cbc',
         $padding = 0
     ) {
         $this->padding = $padding;
-        if (!$this->validateCipher($cipher)) {
-            throw new \InvalidArgumentException("Cipher $cipher is not a known cipher");
+        if (!$this->validateAlgorithm($algorithm)) {
+            throw new \InvalidArgumentException("Cipher $algorithm is not a known algorithm");
         }
-        $this->cipher = $cipher;
+        $this->algorithm = $algorithm;
     }
 
     /**
@@ -36,9 +36,9 @@ class OpenSSL extends EncryptionAbstract
      * (non-PHPdoc)
      * @see \Shrikeh\Crypto\Encryption\EncryptionInterface::getIvSize()
      */
-    public function getCipherIvSize()
+    public function getAlgorithmIvSize()
     {
-        return openssl_cipher_iv_length($this->getCipher());
+        return openssl_cipher_iv_length($this->getAlgorithm());
     }
 
     /**
@@ -66,7 +66,7 @@ class OpenSSL extends EncryptionAbstract
 
         $encrypted = openssl_encrypt(
             serialize($data),
-            $this->getCipher(),
+            $this->getAlgorithm(),
             $key,
             $this->getPadding(),
             $iv
@@ -90,7 +90,7 @@ class OpenSSL extends EncryptionAbstract
         }
         $decrypted = openssl_decrypt(
             $encrypted,
-            $this->getCipher(),
+            $this->getAlgorithm(),
             $key,
             $this->getPadding(),
             $iv
@@ -100,9 +100,9 @@ class OpenSSL extends EncryptionAbstract
 
     /**
      * (non-PHPdoc)
-     * @see \Shrikeh\Crypto\Encryption\EncryptionAbstract::getImplementationCiphers()
+     * @see \Shrikeh\Crypto\Encryption\EncryptionAbstract::getImplementationAlgorithms()
      */
-    protected function getImplementationCiphers()
+    protected function getImplementationAlgorithms()
     {
         return openssl_get_cipher_methods();
     }
