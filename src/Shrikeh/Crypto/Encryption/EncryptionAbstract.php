@@ -18,6 +18,14 @@ abstract class EncryptionAbstract implements EncryptionInterface
      */
     protected $cipher;
 
+    /**
+     * As the cipher is immutable, we cache the IV size rather than
+     * recalculate it for each request.
+     *
+     * @var integer
+     */
+    protected $ivSize;
+
 
     /**
      * Return the cipher being used.
@@ -39,6 +47,18 @@ abstract class EncryptionAbstract implements EncryptionInterface
     protected function validateCipher($cipher)
     {
         return in_array($cipher, $this->getAvailableCiphers());
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see \Shrikeh\Crypto\Encryption\EncryptionInterface::getIvSize()
+     */
+    public function getIvSize()
+    {
+        if (null === $this->ivSize) {
+            $this->ivSize = $this->getCipherIvSize();
+        }
+        return $this->ivSize;
     }
 
     /**
@@ -83,4 +103,11 @@ abstract class EncryptionAbstract implements EncryptionInterface
      * @return array
      */
     abstract protected function getImplementationCiphers();
+
+    /**
+     * Get the underlying implementation's iv size for the given cipher.
+     *
+     * @return integer
+     */
+    abstract public function getCipherIvSize();
 }

@@ -36,7 +36,7 @@ class OpenSSL extends EncryptionAbstract
      * (non-PHPdoc)
      * @see \Shrikeh\Crypto\Encryption\EncryptionInterface::getIvSize()
      */
-    public function getIvSize()
+    public function getCipherIvSize()
     {
         return openssl_cipher_iv_length($this->getCipher());
     }

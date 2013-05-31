@@ -55,11 +55,8 @@ class Mcrypt extends EncryptionAbstract
         return $this->mode;
     }
 
-    /**
-     * (non-PHPdoc)
-     * @see \Shrikeh\Crypto\Encryption\EncryptionInterface::getIvSize()
-     */
-    public function getIvSize()
+
+    public function getCipherIvSize()
     {
         return mcrypt_get_iv_size($this->getCipher(), $this->getMode());
     }

@@ -117,7 +117,7 @@ class Password
         if (null === $cost) {
             $cost = $this->defaultCost;
         }
-        return $this->generateHash(
+        return $this->create(
             $this->getSalted($user, $password),
             $algorithm,
             $cost
@@ -131,7 +131,7 @@ class Password
      * @param integer $algorithm
      * @param integer $cost
      */
-    public function generateHash(
+    public function create(
         $saltedPassword,
         $algorithm,
         $cost
