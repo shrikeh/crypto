@@ -3,5 +3,4 @@ namespace Shrikeh\Crypto;
 
 class Encryption
 {
-
 }

@@ -17,7 +17,7 @@ class OpenSSL extends EncryptionAbstract
         $padding = 0
     ) {
         $this->padding = $padding;
-        if (!$this->validateCipher($cipher) ) {
+        if (!$this->validateCipher($cipher)) {
             throw new \InvalidArgumentException("Cipher $cipher is not a known cipher");
         }
         $this->cipher = $cipher;
@@ -47,8 +47,8 @@ class OpenSSL extends EncryptionAbstract
      */
     public function createIv()
     {
-      // TODO: Auto-generated method stub
-        return openssl_random_pseudo_bytes($this->getIvSize());
+          // TODO: Auto-generated method stub
+          return openssl_random_pseudo_bytes($this->getIvSize());
     }
 
     /**
@@ -85,15 +85,15 @@ class OpenSSL extends EncryptionAbstract
      */
     public function decrypt($encrypted, $key, $iv, $base64Decode = true)
     {
-         if ($base64Decode) {
+        if ($base64Decode) {
              $encrypted = base64_decode($encrypted);
-         }
-         $decrypted = openssl_decrypt(
-             $encrypted,
-             $this->getCipher(),
-             $key,
-             $this->getPadding(),
-             $iv
+        }
+        $decrypted = openssl_decrypt(
+            $encrypted,
+            $this->getCipher(),
+            $key,
+            $this->getPadding(),
+            $iv
         );
         return unserialize($decrypted);
     }
@@ -106,5 +106,4 @@ class OpenSSL extends EncryptionAbstract
     {
         return openssl_get_cipher_methods();
     }
-
 }

@@ -29,7 +29,7 @@ class Mcrypt extends EncryptionAbstract
      */
     public function __construct(
         $cipher = MCRYPT_RIJNDAEL_256,
-        $mode   = MCRYPT_MODE_CBC,
+        $mode = MCRYPT_MODE_CBC,
         $libDir = null
     ) {
 
@@ -39,7 +39,7 @@ class Mcrypt extends EncryptionAbstract
         }
         $this->libDir = $libDir;
 
-        if (!$this->validateCipher($cipher) ) {
+        if (!$this->validateCipher($cipher)) {
             throw new \InvalidArgumentException("Cipher $cipher is not a known cipher");
         }
         $this->cipher = $cipher;

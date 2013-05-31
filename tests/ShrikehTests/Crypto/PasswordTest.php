@@ -6,6 +6,10 @@ use \Shrikeh\Crypto\Password;
 
 class PasswordTest extends TestCase
 {
+    /**
+     *
+     * @return array
+     */
     public function providerPassword()
     {
         return array(
@@ -13,14 +17,18 @@ class PasswordTest extends TestCase
                 'barney',
                 'test',
                 'mrFlibble',
+                Password::DEFAULT_COST,
                 '$2y$13$qTQvRiWHpjhQzzA2ilJDu.N706zDxjo3LzNc4u7H6WMy1aJtqVEnq',
                 true,
+                false,
             ),
             array(
                 'barney',
                 'test2',
                 'mrFlibble',
+                Password::DEFAULT_COST,
                 '$2y$13$qTQvRiWHpjhQzzA2ilJDu.N706zDxjo3LzNc4u7H6WMy1aJtqVEnq',
+                false,
                 false,
             ),
         );
@@ -30,18 +38,80 @@ class PasswordTest extends TestCase
     /**
      * @test
      * @dataProvider providerPassword
-     * @param string $username
-     * @param string $password
-     * @param string $salt
-     * @param boolean $expected
+     * @param string  $username
+     * @param string  $password
+     * @param string  $salt
+     * @param integer $cost
+     * @param string  $hash
+     * @param boolean $match
+     * @param boolean $rehash
      */
-    public function testVerify($username, $password, $salt, $hash, $expected)
-    {
-        $passwordHelper = new Password($salt);
+    public function testVerify(
+        $username,
+        $password,
+        $salt,
+        $cost,
+        $hash,
+        $match,
+        $rehash
+    ) {
+        $passwordHelper = new Password($salt, Password::DEFAULT_ALGORITHM, $cost);
 
         $this->assertEquals(
-            $expected,
+            $match,
             $passwordHelper->verify($username, $password, $hash)
         );
+    }
+
+    /**
+     * @test
+     * @dataProvider providerPassword
+     * @param string  $username
+     * @param string  $password
+     * @param string  $salt
+     * @param integer $cost
+     * @param string  $hash
+     * @param boolean $match
+     * @param boolean $rehash
+     */
+    public function testNeedsRehash(
+        $username,
+        $password,
+        $salt,
+        $cost,
+        $hash,
+        $match,
+        $rehash
+    ) {
+        $passwordHelper = new Password($salt, Password::DEFAULT_ALGORITHM, $cost);
+        $this->assertEquals(
+            $rehash,
+            $passwordHelper->needsRehash($hash)
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider providerPassword
+     * @param string  $username
+     * @param string  $password
+     * @param string  $salt
+     * @param integer $cost
+     * @param string  $hash
+     * @param boolean $match
+     * @param boolean $rehash
+     */
+    public function testGetHash(
+        $username,
+        $password,
+        $salt,
+        $cost,
+        $hash,
+        $match,
+        $rehash
+    ) {
+        $passwordHelper = new Password($salt, Password::DEFAULT_ALGORITHM, $cost);
+        $hashedPassword = $passwordHelper->getHash($username, $password);
+        $this->assertNotNull($hashedPassword);
     }
 }

@@ -1,4 +1,3 @@
 <?php
 // PHPUnit bootstrap
-require_once POPSHACK_ODM_TEST_DIR . '/../venor/autoload.php';
-
+require_once __DIR__ . '/../vendor/autoload.php';

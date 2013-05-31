@@ -49,7 +49,17 @@ class McryptTest extends TestCase
         $this->assertNotNull($iv);
         $this->assertEquals($ivSize, strlen($iv));
         $this->setExpectedException('\InvalidArgumentException');
-        $iv = mcrypt_create_iv($ivSize -1, MCRYPT_DEV_RANDOM);
+        $crypt->validateIv(null);
+    }
+
+    /**
+     * @test
+     */
+    public function testInvalidIv()
+    {
+        $crypt = new Mcrypt(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+        $this->setExpectedException('\InvalidArgumentException');
+        $iv = mcrypt_create_iv($crypt->getIvSize() -1, MCRYPT_DEV_RANDOM);
         $crypt->validateIv($iv);
     }
 

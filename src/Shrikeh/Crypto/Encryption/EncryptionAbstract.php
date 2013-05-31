@@ -83,5 +83,4 @@ abstract class EncryptionAbstract implements EncryptionInterface
      * @return array
      */
     abstract protected function getImplementationCiphers();
-
 }

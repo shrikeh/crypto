@@ -45,8 +45,8 @@ class Password
      */
     public function __construct(
         $salt,
-        $defaultAlgorithm    = self::DEFAULT_ALGORITHM,
-        $defaultCost         = self::DEFAULT_COST
+        $defaultAlgorithm = self::DEFAULT_ALGORITHM,
+        $defaultCost = self::DEFAULT_COST
     ) {
         $this->salt             = (string) $salt;
         $this->defaultAlgorithm = $defaultAlgorithm;
@@ -79,8 +79,8 @@ class Password
      */
     public function needsRehash(
         $hash,
-        $algorithm    = null,
-        $cost         = null
+        $algorithm = null,
+        $cost = null
     ) {
         if (null === $algorithm) {
             $algorithm = $this->defaultAlgorithm;
@@ -107,8 +107,8 @@ class Password
     public function getHash(
         $user,
         $password,
-        $algorithm  = null,
-        $cost       = null
+        $algorithm = null,
+        $cost = null
     ) {
         if (null === $algorithm) {
             $algorithm = $this->defaultAlgorithm;
