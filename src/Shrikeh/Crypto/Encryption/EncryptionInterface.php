@@ -21,10 +21,9 @@ interface EncryptionInterface
     /**
      * Encrypt some data.
      *
-     * @param mixed $data
-     * @param string $password
-     * @param string $cipher
-     * @param string $iv
+     * @param mixed   $data The data to encrypt
+     * @param string  $key The hash to encrypt with
+     * @param string  $iv The initialization vector
      * @param boolean $base64Encode Whether to base64_encode the data
      * @return string The encrypted data
      */
@@ -33,14 +32,13 @@ interface EncryptionInterface
     /**
      * Decrypt and unserialize an encrypted string.
      *
-     * @param string $encrypted
-     * @param string $password
-     * @param string $cipher
-     * @param string $iv
+     * @param string  $encrypted The encryptd data
+     * @param string  $key The hash used to encrypt
+     * @param string  $iv The initialization vector
      * @param boolean $base64Decode Whether to base64_encode the encrypted data
-     * @return mixed The unserialized, decrypted data
+     * @return mixed  The unserialized, decrypted data
      */
-    public function decrypt($encrypted, $password, $iv, $base64Decode = true);
+    public function decrypt($encrypted, $key, $iv, $base64Decode = true);
 
     /**
      * Return the default cipher for this implementation.

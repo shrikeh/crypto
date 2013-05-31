@@ -52,15 +52,18 @@ class OpenSSL extends EncryptionAbstract
     }
 
     /**
-     * Encrypt some data based on the key and initialization vector.
+     * Encrypt some data.
      *
-     * @param mixed $data
-     * @param string $password
-     * @param string $cipher
-     * @param string $iv
+     * @param mixed   $data The data to encrypt
+     * @param string  $key The hash to encrypt with
+     * @param string  $iv The initialization vector
+     * @param boolean $base64Encode Whether to base64_encode the data
+     * @return string The encrypted data
      */
     public function encrypt($data, $key, $iv, $base64Encode = true)
     {
+        $this->validateIv($iv);
+
         $encrypted = openssl_encrypt(
             serialize($data),
             $this->getCipher(),
@@ -72,13 +75,13 @@ class OpenSSL extends EncryptionAbstract
     }
 
     /**
-     * Decrypt the data based on a key and initialization vector.
+     * Decrypt and unserialize an encrypted string.
      *
-     * @param string  $encrypted
-     * @param string  $password
-     * @param string  $cipher
-     * @param string  $iv
-     * @param boolean $base64Decode Whether to base64_decode the encrypted data
+     * @param string  $encrypted The encryptd data
+     * @param string  $key The hash used to encrypt
+     * @param string  $iv The initialization vector
+     * @param boolean $base64Decode Whether to base64_encode the encrypted data
+     * @return mixed  The unserialized, decrypted data
      */
     public function decrypt($encrypted, $key, $iv, $base64Decode = true)
     {

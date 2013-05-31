@@ -39,6 +39,7 @@ class McryptTest extends TestCase
 
     /**
      * @test
+     * @covers \Shrikeh\Crypto\Encryption\EncryptionAbstract::validateIv
      */
     public function testIv()
     {
@@ -47,6 +48,9 @@ class McryptTest extends TestCase
         $this->assertSame($ivSize, $crypt->getIvSize());
         $iv = $crypt->createIv();
         $this->assertEquals($ivSize, strlen($iv));
+        $this->setExpectedException('\InvalidArgumentException');
+        $iv = mcrypt_create_iv($ivSize -1, MCRYPT_DEV_RANDOM);
+        $crypt->validateIv($iv);
     }
 
     /**

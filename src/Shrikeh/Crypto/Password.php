@@ -45,27 +45,28 @@ class Password
      */
     public function __construct(
         $salt,
-        $defaultAlgorithm     = self::DEFAULT_ALGORITHM,
+        $defaultAlgorithm    = self::DEFAULT_ALGORITHM,
         $defaultCost         = self::DEFAULT_COST
     ) {
-        $this->salt = (string) $salt;
+        $this->salt             = (string) $salt;
         $this->defaultAlgorithm = $defaultAlgorithm;
-        $this->defaultCost = $defaultCost;
+        $this->defaultCost      = $defaultCost;
     }
 
     /**
+     * Verify the user(name) and password provided.
      *
-     * @param string $username
+     * @param string $user
      * @param string $password
      * @param string $hash
      */
     public function verify(
-        $username,
+        $user,
         $password,
         $hash
     ) {
         return password_verify(
-            $this->getSalted($username, $password),
+            $this->getSalted($user, $password),
             $hash
         );
     }
@@ -96,14 +97,15 @@ class Password
     }
 
     /**
+     * Get a hash of the user(name) and password.
      *
-     * @param string $username
+     * @param string $user
      * @param string $password
      * @param int $algorithm
      * @param int $cost
      */
     public function getHash(
-        $username,
+        $user,
         $password,
         $algorithm  = null,
         $cost       = null
@@ -116,19 +118,20 @@ class Password
             $cost = $this->defaultCost;
         }
         return $this->generateHash(
-            $this->getSalted($username, $password),
+            $this->getSalted($user, $password),
             $algorithm,
             $cost
         );
     }
 
     /**
+     * Generate the hash.
      *
      * @param string $saltedPassword
      * @param integer $algorithm
      * @param integer $cost
      */
-    protected function generateHash(
+    public function generateHash(
         $saltedPassword,
         $algorithm,
         $cost
@@ -143,12 +146,12 @@ class Password
     /**
      * Return the salted details.
      *
-     * @param string $username
+     * @param string $user
      * @param string $password
      * @return string
      */
-    protected function getSalted($username, $password)
+    protected function getSalted($user, $password)
     {
-        return (string) $username . $this->salt . $password;
+        return (string) $user . $this->salt . $password;
     }
 }

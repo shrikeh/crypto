@@ -55,6 +55,29 @@ abstract class EncryptionAbstract implements EncryptionInterface
     }
 
     /**
+     * Validate an IV and throw meaningful exceptions if it fails.
+     *
+     * @param string $iv
+     * @throws \InvalidArgumentException
+     * @return boolean
+     */
+    public function validateIv($iv)
+    {
+        if (!$iv) {
+            throw new \InvalidArgumentException(
+                'It is bad practice to supply an empty IV'
+            );
+        }
+        $expectedSize = $this->getIvSize();
+        if (strlen($iv) < $expectedSize) {
+            throw new \InvalidArgumentException(
+                "The IV is too short for this cipher, it should be at least $expectedSize bytes"
+            );
+        }
+        return true;
+    }
+
+    /**
      * Get the underlying implementation's available ciphers.
      *
      * @return array
