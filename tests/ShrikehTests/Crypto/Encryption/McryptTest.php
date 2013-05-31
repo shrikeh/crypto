@@ -39,7 +39,6 @@ class McryptTest extends TestCase
 
     /**
      * @test
-     * @covers \Shrikeh\Crypto\Encryption\EncryptionAbstract::validateIv
      */
     public function testIv()
     {
@@ -47,6 +46,7 @@ class McryptTest extends TestCase
         $ivSize = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
         $this->assertSame($ivSize, $crypt->getIvSize());
         $iv = $crypt->createIv();
+        $this->assertNotNull($iv);
         $this->assertEquals($ivSize, strlen($iv));
         $this->setExpectedException('\InvalidArgumentException');
         $iv = mcrypt_create_iv($ivSize -1, MCRYPT_DEV_RANDOM);
