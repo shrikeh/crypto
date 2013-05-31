@@ -21,12 +21,7 @@ tmtagsHistory
 atlassian-ide-plugin.xml
 
 composer.lock
-etc/
-web/bundles/popshackdefault/css/*
-app/bootstrap.php.cache
-app/config/*
-app/cache/*
-app/logs/*
+build
 vendor
 data
 !/.git*
