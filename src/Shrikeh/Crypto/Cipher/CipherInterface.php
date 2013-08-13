@@ -18,6 +18,7 @@ interface CipherInterface
     public function createIv();
 
 
+
     /**
      * Encrypt some data.
      *

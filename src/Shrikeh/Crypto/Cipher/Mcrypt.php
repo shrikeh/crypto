@@ -55,6 +55,16 @@ class Mcrypt extends CipherAbstract
         return $this->mode;
     }
 
+    public function toArray()
+    {
+        return array(
+            'name' => 'Mcrypt',
+            'algorithm' => $this->getAlgorithm(),
+            'mode'      => $this->getMode(),
+            'ivsize'    => $this->getIvSize(),
+        );
+    }
+
 
     public function getAlgorithmIvSize()
     {
