@@ -97,7 +97,7 @@ class Mcrypt extends CipherAbstract
      * (non-PHPdoc)
      * @see \Shrikeh\Crypto\Encryption\EncryptionAbstract::getImplementationAlgorithms()
      */
-    private function getImplementationAlgorithms()
+    protected function getImplementationAlgorithms()
     {
         return mcrypt_list_algorithms($this->libDir);
     }

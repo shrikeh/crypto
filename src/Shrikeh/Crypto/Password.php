@@ -24,14 +24,16 @@ class Password
      *
      * @var integer
      */
-    const DEFAULT_ALGORITHM = \PASSWORD_BCRYPT;
+    const DEFAULT_ALGORITHM = PASSWORD_BCRYPT;
+
+    const DEFAULT_PEPPER_FORMAT = '%s%s';
 
     /**
      * The application-specific pepper to use. This is a sprintf()-compatible
      * string
      * @var string
      */
-    private $pepper = '%s%s';
+    private $pepper;
 
 
     /**
@@ -58,7 +60,7 @@ class Password
     public function __construct(
         $algorithm = self::DEFAULT_ALGORITHM,
         $cost = self::DEFAULT_COST,
-        $pepper = ''
+        $pepper = self::DEFAULT_PEPPER_FORMAT
     ) {
 
         $this->algorithm    = $algorithm;

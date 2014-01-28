@@ -8,9 +8,11 @@ class OpenSSL extends CipherAbstract
     private $padding;
 
     /**
+     * Constructor.
      *
-     * @param string $cipher
-     * @param string $padding
+     * @param string $algorithm
+     * @param integer $padding
+     * @throws \InvalidArgumentException If not a known cipher
      */
     public function __construct(
         $algorithm = 'aes-256-cbc',
