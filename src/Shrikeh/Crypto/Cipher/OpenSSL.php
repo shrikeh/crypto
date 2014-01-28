@@ -5,7 +5,7 @@ use \Shrikeh\Crypto\Cipher\CipherAbstract;
 
 class OpenSSL extends CipherAbstract
 {
-    protected $padding;
+    private $padding;
 
     /**
      *

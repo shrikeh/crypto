@@ -1,6 +1,15 @@
 <?php
+/**
+ * Library and wrapper around password functions. Useful for mocking.
+ *
+ * @author Barney Hanlon <barney@shrikeh.net>
+ */
 namespace Shrikeh\Crypto;
-
+/**
+ * Library and wrapper around password functions. Useful for mocking.
+ *
+ * @author Barney Hanlon <barney@shrikeh.net>
+ */
 class Password
 {
     /**
@@ -15,13 +24,14 @@ class Password
      *
      * @var integer
      */
-    const DEFAULT_ALGORITHM = PASSWORD_BCRYPT;
+    const DEFAULT_ALGORITHM = \PASSWORD_BCRYPT;
 
     /**
-     * The application-specific salt to use.
+     * The application-specific pepper to use. This is a sprintf()-compatible
+     * string
      * @var string
      */
-    protected $salt;
+    private $pepper = '%s%s';
 
 
     /**
@@ -29,28 +39,31 @@ class Password
      *
      * @var integer
      */
-    protected $defaultAlgorithm;
+    private $algorithm;
 
     /**
      * The runtime-set CPU cost,
      *
      * @var integer
      */
-    protected $defaultCost;
+    private $cost;
 
     /**
      * Simple constructor.
      *
-     * @param string $salt
+     * @param integer $algorithm
+     * @param integer $cost
+     * @param string $pepper
      */
     public function __construct(
-        $salt,
-        $defaultAlgorithm = self::DEFAULT_ALGORITHM,
-        $defaultCost = self::DEFAULT_COST
+        $algorithm = self::DEFAULT_ALGORITHM,
+        $cost = self::DEFAULT_COST,
+        $pepper = ''
     ) {
-        $this->salt             = (string) $salt;
-        $this->defaultAlgorithm = $defaultAlgorithm;
-        $this->defaultCost      = $defaultCost;
+
+        $this->algorithm    = $algorithm;
+        $this->cost         = $cost;
+        $this->pepper       = (string) $pepper;
     }
 
     /**
@@ -59,6 +72,7 @@ class Password
      * @param string $user
      * @param string $password
      * @param string $hash
+     * @return boolean
      */
     public function verify(
         $user,
@@ -66,16 +80,18 @@ class Password
         $hash
     ) {
         return password_verify(
-            $this->getSalted($user, $password),
+            $this->getPeppered($user, $password),
             $hash
         );
     }
 
     /**
      * Calculate if the password needs rehashing.
+     *
      * @param string $hash
      * @param integer $algorithm
      * @param integer $cost
+     * @return boolean
      */
     public function needsRehash(
         $hash,
@@ -83,11 +99,11 @@ class Password
         $cost = null
     ) {
         if (null === $algorithm) {
-            $algorithm = $this->defaultAlgorithm;
+            $algorithm = $this->algorithm;
         }
 
         if (null === $cost) {
-            $cost = $this->defaultCost;
+            $cost = $this->cost;
         }
         return password_needs_rehash(
             $hash,
@@ -99,10 +115,11 @@ class Password
     /**
      * Get a hash of the user(name) and password.
      *
-     * @param string $user
-     * @param string $password
-     * @param int $algorithm
-     * @param int $cost
+     * @param string $user The user identifier (i.e. email, username, etc)
+     * @param string $password The user's password
+     * @param integer $algorithm The algorithm to use
+     * @param integer $cost The CPU 'cost' to use
+     * @return string The hash of the username and password (and pepper if used)
      */
     public function getHash(
         $user,
@@ -111,14 +128,14 @@ class Password
         $cost = null
     ) {
         if (null === $algorithm) {
-            $algorithm = $this->defaultAlgorithm;
+            $algorithm = $this->algorithm;
         }
 
         if (null === $cost) {
-            $cost = $this->defaultCost;
+            $cost = $this->cost;
         }
         return $this->create(
-            $this->getSalted($user, $password),
+            $this->getPeppered($user, $password),
             $algorithm,
             $cost
         );
@@ -127,31 +144,32 @@ class Password
     /**
      * Generate the hash.
      *
-     * @param string $saltedPassword
+     * @param string $pepperedPassword
      * @param integer $algorithm
-     * @param integer $cost
+     * @param integer $cost The CPU cost we wish to use
+     * @return string the password hash
      */
     public function create(
-        $saltedPassword,
+        $pepperedPassword,
         $algorithm,
         $cost
     ) {
         return password_hash(
-            $saltedPassword,
+            $pepperedPassword,
             $algorithm,
             ['cost' => $cost]
         );
     }
 
     /**
-     * Return the salted details.
+     * Return the peppered details.
      *
-     * @param string $user
-     * @param string $password
-     * @return string
+     * @param string $user The user identifier (i.e. email, username, etc)
+     * @param string $password The user's password
+     * @return string the peppered string
      */
-    protected function getSalted($user, $password)
+    private function getPeppered($user, $password)
     {
-        return (string) $user . $this->salt . $password;
+        return (string) sprintf($this->pepper, $user, $password);
     }
 }

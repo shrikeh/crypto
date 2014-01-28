@@ -10,14 +10,14 @@ class Mcrypt extends CipherAbstract
      *
      * @var string
      */
-    protected $libDir;
+    private $libDir;
 
     /**
      * The mode for encryption.
      *
      * @var integer
      */
-    protected $mode;
+    private $mode;
 
     /**
      * Constructor.
@@ -97,7 +97,7 @@ class Mcrypt extends CipherAbstract
      * (non-PHPdoc)
      * @see \Shrikeh\Crypto\Encryption\EncryptionAbstract::getImplementationAlgorithms()
      */
-    protected function getImplementationAlgorithms()
+    private function getImplementationAlgorithms()
     {
         return mcrypt_list_algorithms($this->libDir);
     }

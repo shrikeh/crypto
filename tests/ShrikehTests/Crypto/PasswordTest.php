@@ -7,6 +7,7 @@ use \Shrikeh\Crypto\Password;
 class PasswordTest extends TestCase
 {
     /**
+     * Data Provider for tests
      *
      * @return array
      */
@@ -16,7 +17,7 @@ class PasswordTest extends TestCase
             array(
                 'barney',
                 'test',
-                'mrFlibble',
+                '%smrFlibble%s',
                 Password::DEFAULT_COST,
                 '$2y$13$qTQvRiWHpjhQzzA2ilJDu.N706zDxjo3LzNc4u7H6WMy1aJtqVEnq',
                 true,
@@ -25,7 +26,7 @@ class PasswordTest extends TestCase
             array(
                 'barney',
                 'test2',
-                'mrFlibble',
+                '%2$sGinghamDress%1$s',
                 Password::DEFAULT_COST,
                 '$2y$13$qTQvRiWHpjhQzzA2ilJDu.N706zDxjo3LzNc4u7H6WMy1aJtqVEnq',
                 false,
@@ -40,7 +41,7 @@ class PasswordTest extends TestCase
      * @dataProvider providerPassword
      * @param string  $username
      * @param string  $password
-     * @param string  $salt
+     * @param string  $pepper
      * @param integer $cost
      * @param string  $hash
      * @param boolean $match
@@ -49,13 +50,13 @@ class PasswordTest extends TestCase
     public function testVerify(
         $username,
         $password,
-        $salt,
+        $pepper,
         $cost,
         $hash,
         $match,
         $rehash
     ) {
-        $passwordHelper = new Password($salt, Password::DEFAULT_ALGORITHM, $cost);
+        $passwordHelper = new Password(Password::DEFAULT_ALGORITHM, $cost, $pepper);
 
         $this->assertEquals(
             $match,
@@ -68,7 +69,7 @@ class PasswordTest extends TestCase
      * @dataProvider providerPassword
      * @param string  $username
      * @param string  $password
-     * @param string  $salt
+     * @param string  $pepper
      * @param integer $cost
      * @param string  $hash
      * @param boolean $match
@@ -77,13 +78,13 @@ class PasswordTest extends TestCase
     public function testNeedsRehash(
         $username,
         $password,
-        $salt,
+        $pepper,
         $cost,
         $hash,
         $match,
         $rehash
     ) {
-        $passwordHelper = new Password($salt, Password::DEFAULT_ALGORITHM, $cost);
+        $passwordHelper = new Password(Password::DEFAULT_ALGORITHM, $cost, $pepper);
         $this->assertEquals(
             $rehash,
             $passwordHelper->needsRehash($hash)
@@ -95,7 +96,7 @@ class PasswordTest extends TestCase
      * @dataProvider providerPassword
      * @param string  $username
      * @param string  $password
-     * @param string  $salt
+     * @param string  $pepper
      * @param integer $cost
      * @param string  $hash
      * @param boolean $match
@@ -104,13 +105,13 @@ class PasswordTest extends TestCase
     public function testGetHash(
         $username,
         $password,
-        $salt,
+        $pepper,
         $cost,
         $hash,
         $match,
         $rehash
     ) {
-        $passwordHelper = new Password($salt, Password::DEFAULT_ALGORITHM, $cost);
+        $passwordHelper = new Password(Password::DEFAULT_ALGORITHM, $cost, $pepper);
         $hashedPassword = $passwordHelper->getHash($username, $password);
         $this->assertNotNull($hashedPassword);
     }
