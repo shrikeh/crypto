@@ -16,8 +16,6 @@ class PasswordTest extends TestCase
         return array(
             array(
                 'barney',
-                'test',
-                '%smrFlibble%s',
                 Password::DEFAULT_COST,
                 '$2y$13$qTQvRiWHpjhQzzA2ilJDu.N706zDxjo3LzNc4u7H6WMy1aJtqVEnq',
                 true,
@@ -25,8 +23,6 @@ class PasswordTest extends TestCase
             ),
             array(
                 'barney',
-                'test2',
-                '%2$sGinghamDress%1$s',
                 Password::DEFAULT_COST,
                 '$2y$13$qTQvRiWHpjhQzzA2ilJDu.N706zDxjo3LzNc4u7H6WMy1aJtqVEnq',
                 false,
@@ -67,7 +63,6 @@ class PasswordTest extends TestCase
     /**
      * @test
      * @dataProvider providerPassword
-     * @param string  $username
      * @param string  $password
      * @param string  $pepper
      * @param integer $cost
@@ -76,7 +71,6 @@ class PasswordTest extends TestCase
      * @param boolean $rehash
      */
     public function testNeedsRehash(
-        $username,
         $password,
         $pepper,
         $cost,
@@ -84,7 +78,7 @@ class PasswordTest extends TestCase
         $match,
         $rehash
     ) {
-        $passwordHelper = new Password(Password::DEFAULT_ALGORITHM, $cost, $pepper);
+        $passwordHelper = new Password(Password::DEFAULT_ALGORITHM, $cost);
         $this->assertEquals(
             $rehash,
             $passwordHelper->needsRehash($hash)

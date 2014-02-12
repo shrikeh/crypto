@@ -15,7 +15,7 @@
         "ircmaxell/password-compat" : "dev-master"
     },
     "require-dev" : {
-        "phpunit/phpunit": "3.7.*",
+        "phpspec/phpspec": "2.0.*@dev",
         "phploc/phploc": ">=1.7.4",
         "pdepend/pdepend": "*",
         "shrink/phpcpd": "dev-master",
@@ -23,6 +23,9 @@
         "phpmd/phpmd" : ">=1.4.0",
         "squizlabs/php_codesniffer": "1.*",
         "phpdocumentor/phpdocumentor": "2.*"
+    },
+    "config": {
+        "bin-dir": "bin"
     },
     "autoload": {
         "psr-0": {

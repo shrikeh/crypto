@@ -14,5 +14,9 @@ There's a few advantages to handling encryption and password hashing via objects
 * it helps dependency injection-led development by abstracting away the details of encryption implementation
 * swapping out one form of encryption for another should be fairly easy (so long as you also update your data)
 
+## The Dos and Don'ts of Passwords
+
+* don't use the username of a user as these aren't globally unique and allow for rainbow table attacks.
+
 
 

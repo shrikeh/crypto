@@ -23,6 +23,7 @@ atlassian-ide-plugin.xml
 composer.lock
 build
 vendor
+bin
 data
 !/.git*
 !/.travis.yml
