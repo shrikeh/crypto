@@ -20,7 +20,6 @@ tmtagsHistory
 *.sublime-workspace
 atlassian-ide-plugin.xml
 
-composer.lock
 build
 vendor
 bin
