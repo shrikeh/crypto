@@ -3,7 +3,13 @@ crypto
 
 OOP implementations of various encryption methods for PHP. Standardises implementation across different methods (mcrypt, openssl, etc).
 
+[![Build Status](https://travis-ci.org/shrikeh/crypto.png?branch=master)](https://travis-ci.org/shrikeh/crypto)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/shrikeh/crypto/badges/quality-score.png?s=39bb83c56ab01ae92b9ee4c33b371258203d734f)](https://scrutinizer-ci.com/g/shrikeh/crypto/)
+[![Dependency Status](https://www.versioneye.com/user/projects/5314eb39ec1375cd39000041/badge.png)](https://www.versioneye.com/user/projects/5314eb39ec1375cd39000041)
+[![Latest Stable Version](https://poser.pugx.org/shrikeh/crypto/v/stable.png)](https://packagist.org/packages/shrikeh/crypto)
 [![Total Downloads](https://poser.pugx.org/shrikeh/crypto/downloads.png)](https://packagist.org/packages/shrikeh/crypto)
+[![Latest Unstable Version](https://poser.pugx.org/shrikeh/crypto/v/unstable.png)](https://packagist.org/packages/shrikeh/crypto)
+[![License](https://poser.pugx.org/shrikeh/crypto/license.png)](https://packagist.org/packages/shrikeh/crypto)
 
 ## Why bother?
 
