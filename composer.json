@@ -3,7 +3,8 @@
     "type": "library",
     "description": "OOP implementations of various encryption methods for PHP. Standardises implementation across different methods (mcrypt, openssl, etc).",
     "keywords": ["encryption", "mcrypt", "openssl", "passwords"],
-    "homepage": "http://popshack.com",
+    "homepage": "https://github.com/shrikeh/crypto",
+    "license": "MIT",
     "authors": [
         {
             "name": "Shrikeh",
