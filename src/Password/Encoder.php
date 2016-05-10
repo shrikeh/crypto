@@ -6,15 +6,17 @@ use Shrikeh\Crypto\Password\Hash;
 
 interface Encoder
 {
-    const INFO_ALGO = 'algo';
+    const INFO_ALGO     = 'algo';
 
-    const INFO_OPTIONS = 'options';
+    const INFO_OPTIONS  = 'options';
 
-    const OPTIONS_COST = 'cost';
+    const OPTIONS_COST  = 'cost';
 
-    const OPTIONS_SALT = 'salt';
+    const OPTIONS_SALT  = 'salt';
 
     public function algo();
+
+    public function info();
 
     public function hash($password);
 
