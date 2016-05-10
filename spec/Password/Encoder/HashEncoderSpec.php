@@ -9,6 +9,19 @@ use Shrikeh\Crypto\Password\Encoder;
 
 class HashEncoderSpec extends ObjectBehavior
 {
+
+    function let()
+    {
+        $options = [
+          Encoder::OPTIONS_COST => 13,
+          Encoder::OPTIONS_SALT => 'wibble',
+        ];
+        $info = [
+            Encoder::INFO_ALGO => PASSWORD_BCRYPT,
+            Encoder::INFO_OPTIONS => $options,
+        ];
+        $this->beConstructedThroughFromInfo($info);
+    }
     function it_is_an_encoder()
     {
         $this->shouldHaveType('Shrikeh\Crypto\Password\Encoder');
@@ -31,6 +44,20 @@ class HashEncoderSpec extends ObjectBehavior
         );
         $this->beConstructedThroughBcrypt($options);
         $this->shouldThrow('\InvalidArgumentException')->duringInstantiation();
+    }
+
+    function it_returns_itself_as_info_array()
+    {
+      $options = [
+        Encoder::OPTIONS_COST => 10,
+        Encoder::OPTIONS_SALT => 'wibble',
+      ];
+      $info = [
+          Encoder::INFO_ALGO => PASSWORD_BCRYPT,
+          Encoder::INFO_OPTIONS => $options,
+      ];
+      $this->beConstructedThroughFromInfo($info);
+      $this->info()->shouldReturn($info);
     }
 
     function it_returns_the_algorithm()
@@ -78,8 +105,8 @@ class HashEncoderSpec extends ObjectBehavior
             Encoder::INFO_ALGO => PASSWORD_BCRYPT,
             Encoder::INFO_OPTIONS => $options,
         ];
-      $this->beConstructedThroughFromInfo($info);
-      $this->options()->shouldReturn($options);
+        $this->beConstructedThroughFromInfo($info);
+        $this->options()->shouldReturn($options);
     }
 
     function it_returns_a_bcrypt_encoding_through_named_constructor()

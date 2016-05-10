@@ -45,7 +45,7 @@ class HashSpec extends ObjectBehavior
         $this->verify('some_other_password')->shouldReturn(false);
     }
 
-    function it_returns_a_hash_encoder_for_info()
+    function it_returns_an_encoder_for_info()
     {
         $password = 'bazbarfoo';
         $hash = password_hash(

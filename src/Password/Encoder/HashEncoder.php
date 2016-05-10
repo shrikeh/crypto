@@ -40,12 +40,12 @@ final class HashEncoder implements EncoderInterface
         return new self(PASSWORD_DEFAULT);
     }
 
-    private function __construct(
-        $algo = PASSWORD_DEFAULT,
-        array $options = array()
-    ) {
-        $this->algo     = $algo;
-        $this->bcryptOptions($options);
+    public function info()
+    {
+        return array(
+            self::INFO_ALGO => $this->algo(),
+            self::INFO_OPTIONS => $this->options(),
+        );
     }
 
     public function algo()
@@ -96,5 +96,13 @@ final class HashEncoder implements EncoderInterface
             }
         }
         $this->options = $options;
+    }
+
+    private function __construct(
+        $algo = PASSWORD_DEFAULT,
+        array $options = array()
+    ) {
+        $this->algo     = $algo;
+        $this->bcryptOptions($options);
     }
 }
