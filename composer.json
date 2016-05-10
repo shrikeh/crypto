@@ -16,22 +16,14 @@
         "ircmaxell/password-compat" : "dev-master"
     },
     "require-dev" : {
-        "phpspec/phpspec": "2.0.*@dev",
-        "phploc/phploc": ">=1.7.4",
-        "pdepend/pdepend": ">=1.1",
-        "sebastian/phpcpd": "2.0.*@dev",
-        "mayflower/php-codebrowser": "~1.1",
-        "phpmd/phpmd" : ">=1.4",
-        "squizlabs/php_codesniffer": "1.*",
-        "phpdocumentor/phpdocumentor": "2.*"
+        "phpspec/phpspec": "^2.5"
     },
     "config": {
         "bin-dir": "bin"
     },
     "autoload": {
-        "psr-0": {
-            "Shrikeh\\Crypto": "src",
-            "ShrikehTests\\Crypto": "tests"
+        "psr-4": {
+            "Shrikeh\\Crypto\\": "src"
         }
     },
     "minimum-stability": "dev"

@@ -1,0 +1,8 @@
+---
+suites:
+  default:
+    namespace: Shrikeh\Crypto
+    psr4_prefix: Shrikeh\Crypto
+    spec_prefix: spec
+    src_path: %paths.config%/src
+...
